@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 Hour 100K Speedrun</title>
+    <meta name="description" content="1 Hour 100K Speedrun — Can this token hit $100K market cap in 1 hour?">
+    <meta property="og:title" content="1 Hour 100K">
+    <meta property="og:description" content="Pump it to $100K before time runs out. No second chances.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #ffffff;
+            --fg: #00e676;
+            --accent: #00e676;
+            --muted: rgba(0, 230, 118, 0.6);
+            --border: rgba(0, 230, 118, 0.2);
+            --glow: rgba(0, 230, 118, 0.3);
+            --card-border: rgba(0, 230, 118, 0.15);
+        }
+
+        body {
+            background: linear-gradient(160deg, #ffffff 0%, #e8fff0 40%, #c8f7dc 70%, #a8f0c6 100%);
+            color: var(--fg);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 48px 24px;
+            gap: 32px;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(48px, 10vw, 80px);
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-align: center;
+            line-height: 1;
+            background: linear-gradient(135deg, #00e676 0%, #00c965 40%, #006d3a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(0, 109, 58, 0.3)) drop-shadow(0 4px 12px rgba(0, 230, 118, 0.2));
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(14px, 2.5vw, 18px);
+            font-weight: 600;
+            background: linear-gradient(135deg, #00e676 0%, #00a854 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: -16px;
+            filter: drop-shadow(0 1px 2px rgba(0, 109, 58, 0.2));
+        }
+
+        .banner-area {
+            width: 80%;
+            max-width: 700px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -4px rgba(0,230,118,0.12);
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(0,230,118,0.06));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .banner-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(18px, 4vw, 28px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #00e676 0%, #00c965 40%, #006d3a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.1em;
+        }
+
+        .banner-sub {
+            font-size: clamp(11px, 2vw, 14px);
+            font-weight: 600;
+            color: #00a854;
+            margin-top: 8px;
+            letter-spacing: 0.1em;
+        }
+
+        .challenge {
+            font-size: clamp(15px, 2.5vw, 18px);
+            font-weight: 600;
+            color: #008744;
+            text-align: center;
+            max-width: 480px;
+            line-height: 1.6;
+            margin-top: -12px;
+        }
+
+        .status {
+            font-size: 14px;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            min-height: 20px;
+        }
+        .status.ended { color: #009e50; font-weight: 700; animation: pulse 1.5s ease-in-out infinite; }
+        .status.waiting { animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        .countdown { display: flex; align-items: center; gap: 16px; }
+        .time-block { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+        .time-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            font-variant-numeric: tabular-nums;
+            min-width: 2ch;
+            text-align: center;
+            background: linear-gradient(180deg, #00e676 0%, #007a3d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(0,109,58,0.25));
+        }
+
+        .time-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            color: #00a854;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 600;
+        }
+
+        .time-separator {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            background: linear-gradient(180deg, #00e676 0%, #007a3d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.5;
+            align-self: flex-start;
+        }
+
+        .mcap-section {
+            width: 100%;
+            max-width: 600px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(0,230,118,0.06));
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px -2px rgba(0,230,118,0.1), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,230,118,0.05);
+        }
+
+        .mcap-bar-wrapper { display: flex; flex-direction: column; gap: 8px; }
+
+        .mcap-bar-bg {
+            width: 100%;
+            height: 40px;
+            background: rgba(0,230,118,0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .mcap-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00e676, #00c965, #00a854);
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .mcap-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.35), transparent);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .mcap-bar-pct {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0b0e11;
+        }
+
+        .mcap-labels {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #009e50;
+            letter-spacing: 0.1em;
+        }
+
+        .mcap-stats { display: flex; justify-content: center; gap: 32px; }
+        .mcap-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .mcap-stat-label { font-size: 11px; font-weight: 600; color: #00b85e; text-transform: uppercase; letter-spacing: 0.15em; }
+        .mcap-stat-value { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: #009e50; }
+
+        .ca-box {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(0,230,118,0.06));
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', system-ui, monospace;
+            color: #009e50;
+            position: relative;
+            max-width: 100%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px -2px rgba(0,230,118,0.1), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,230,118,0.05);
+        }
+
+        .ca-box:hover {
+            border-color: var(--accent);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px -4px rgba(0,230,118,0.15), 0 0 0 3px var(--glow), inset 0 1px 0 rgba(255,255,255,0.9);
+            transform: translateY(-1px);
+        }
+
+        .ca-label { color: var(--muted); font-size: 14px; font-weight: 400; white-space: nowrap; }
+        .ca-address { font-size: 14px; letter-spacing: 0.05em; word-break: break-all; }
+        .copy-icon { color: var(--muted); flex-shrink: 0; transition: color 0.3s ease; }
+        .ca-box:hover .copy-icon { color: var(--fg); }
+
+        .copied-toast {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--muted);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .ca-box.copied .copied-toast { opacity: 1; }
+
+        .socials { display: flex; gap: 16px; margin-top: 8px; }
+
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(0,230,118,0.06));
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 2px 4px -1px rgba(0,230,118,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .social-button:hover {
+            color: #009e50;
+            border-color: var(--accent);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 20px -4px rgba(0,230,118,0.15), 0 0 0 3px var(--glow), inset 0 1px 0 rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+        }
+
+        .social-button-wide { width: auto; padding: 0 16px; gap: 6px; }
+        .social-label { font-size: 11px; font-weight: 600; color: #00a854; margin-left: 6px; letter-spacing: 0.05em; }
+
+        @media (max-width: 480px) {
+            main { gap: 24px; padding: 32px 16px; }
+            .countdown { gap: 8px; }
+            .ca-box { padding: 12px 14px; gap: 8px; }
+            .ca-address { font-size: 11px; }
+            .ca-label { font-size: 12px; }
+            .mcap-section { max-width: 100%; padding: 16px; }
+            .mcap-stats { gap: 16px; }
+            .mcap-stat-value { font-size: 15px; }
+            .mcap-bar-bg { height: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1 class="title">1 HOUR, 100K</h1>
+        <p class="subtitle">The clock is ticking. How fast can we pump it?</p>
+
+        <div class="banner-area">
+            <div>
+                <div class="banner-text">&#9889; 100K SPEEDRUN &#9889;</div>
+                <div class="banner-sub">Pump it to $100K market cap before the clock hits zero.</div>
+            </div>
+        </div>
+
+        <p class="challenge">Pump it before the clock hits zero. No second chances.</p>
+
+        <div class="countdown">
+            <div class="time-block">
+                <span class="time-value" id="hours">01</span>
+                <span class="time-label">Hr</span>
+            </div>
+            <span class="time-separator">:</span>
+            <div class="time-block">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Min</span>
+            </div>
+            <span class="time-separator">:</span>
+            <div class="time-block">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Sec</span>
+            </div>
+            <span class="time-separator">:</span>
+            <div class="time-block">
+                <span class="time-value" id="ms">00</span>
+                <span class="time-label">Ms</span>
+            </div>
+        </div>
+
+        <p class="status" id="status"></p>
+
+        <div class="mcap-section" id="mcapSection">
+            <div class="mcap-bar-wrapper">
+                <div class="mcap-bar-bg">
+                    <div class="mcap-bar-fill" id="mcapBar">
+                        <span class="mcap-bar-pct" id="mcapPct"></span>
+                    </div>
+                </div>
+                <div class="mcap-labels">
+                    <span>$0</span>
+                    <span>TARGET: $100K</span>
+                </div>
+            </div>
+            <div class="mcap-stats">
+                <div class="mcap-stat">
+                    <span class="mcap-stat-label">Market Cap</span>
+                    <span class="mcap-stat-value" id="mcapValue">--</span>
+                </div>
+                <div class="mcap-stat">
+                    <span class="mcap-stat-label">Price</span>
+                    <span class="mcap-stat-value" id="priceValue">--</span>
+                </div>
+                <div class="mcap-stat">
+                    <span class="mcap-stat-label">24h Volume</span>
+                    <span class="mcap-stat-value" id="volumeValue">--</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="ca-box" id="caBox" onclick="copyCA(this)">
+            <span class="ca-label">CA:</span>
+            <span class="ca-address" id="caAddress"></span>
+            <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="copied-toast">Copied!</span>
+        </button>
+
+        <div class="socials">
+            <a href="#" id="linkTwitter" target="_blank" rel="noopener noreferrer" class="social-button" aria-label="X (Twitter)">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <a href="#" id="linkDex" target="_blank" rel="noopener noreferrer" class="social-button social-button-wide" aria-label="Dexscreener">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M8 12 L11 16 L16 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="social-label">Dexscreener</span>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // ============================================================
+        //  CONFIGURATION — EDIT THESE
+        // ============================================================
+
+        // Set to true when you're ready to start the 1-hour countdown.
+        var STARTED = false;
+
+        // Your Solana token contract address. Fill in when you have it.
+        var CA = '';
+
+        // Your Twitter/X link (optional)
+        var TWITTER_URL = '';
+
+        // Target market cap
+        var TARGET_MCAP = 100000;
+
+        // ============================================================
+        //  ENGINE — no need to edit below
+        // ============================================================
+
+        var DURATION = 60 * 60 * 1000;
+        var startTimestamp = null;
+
+        var hrEl  = document.getElementById('hours');
+        var minEl = document.getElementById('minutes');
+        var secEl = document.getElementById('seconds');
+        var msEl  = document.getElementById('ms');
+        var statusEl = document.getElementById('status');
+
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function formatUsd(n) {
+            if (!n || !isFinite(n)) return '--';
+            if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
+            if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+            if (n >= 1e3) return '$' + (n / 1e3).toFixed(2) + 'K';
+            if (n >= 1)   return '$' + n.toFixed(4);
+            if (n >= 0.0001) return '$' + n.toFixed(6);
+            return '$' + n.toExponential(4);
+        }
+
+        // ─── Timer ───
+        function tick() {
+            if (!STARTED) {
+                hrEl.textContent  = '01';
+                minEl.textContent = '00';
+                secEl.textContent = '00';
+                msEl.textContent  = '00';
+                statusEl.textContent = 'WAITING TO START...';
+                statusEl.className = 'status waiting';
+                requestAnimationFrame(tick);
+                return;
+            }
+
+            if (!startTimestamp) {
+                startTimestamp = Date.now();
+            }
+
+            var elapsed   = Date.now() - startTimestamp;
+            var remaining = DURATION - elapsed;
+
+            if (remaining <= 0) {
+                hrEl.textContent  = '00';
+                minEl.textContent = '00';
+                secEl.textContent = '00';
+                msEl.textContent  = '00';
+                statusEl.textContent = "TIME'S UP. DID WE MAKE IT?";
+                statusEl.className = 'status ended';
+                return;
+            }
+
+            var totalSec = Math.floor(remaining / 1000);
+            hrEl.textContent  = pad(Math.floor(totalSec / 3600));
+            minEl.textContent = pad(Math.floor((totalSec % 3600) / 60));
+            secEl.textContent = pad(totalSec % 60);
+            msEl.textContent  = pad(Math.floor((remaining % 1000) / 10));
+
+            statusEl.textContent = '';
+            statusEl.className = 'status';
+            requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+
+        // ─── Market Cap ───
+        var fetchTimer = null;
+
+        function fetchMarketCap() {
+            if (!CA || CA.length < 10) return;
+
+            fetch('https://api.dexscreener.com/latest/dex/tokens/' + CA)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var pairs = (data.pairs || []).filter(function(p) {
+                        return (p.chainId || '').toLowerCase() === 'solana';
+                    });
+                    if (!pairs.length) return;
+
+                    pairs.sort(function(a, b) {
+                        return (b.liquidity && b.liquidity.usd || 0) - (a.liquidity && a.liquidity.usd || 0);
+                    });
+
+                    var best  = pairs[0];
+                    var mcap  = Number(best.marketCap || best.fdv || 0);
+                    var price = Number(best.priceUsd || 0);
+                    var vol   = best.volume && best.volume.h24 ? Number(best.volume.h24) : 0;
+
+                    document.getElementById('mcapValue').textContent   = formatUsd(mcap);
+                    document.getElementById('priceValue').textContent  = formatUsd(price);
+                    document.getElementById('volumeValue').textContent = formatUsd(vol);
+
+                    var pct = Math.min((mcap / TARGET_MCAP) * 100, 100);
+                    document.getElementById('mcapBar').style.width = Math.max(pct, 2) + '%';
+                    document.getElementById('mcapPct').textContent  = pct.toFixed(5) + '%';
+
+                    if (best.url) document.getElementById('linkDex').href = best.url;
+                })
+                .catch(function(err) { console.error('fetch error:', err); });
+        }
+
+        // ─── Init ───
+        (function init() {
+            if (CA && CA.length > 10) {
+                document.getElementById('caAddress').textContent = CA;
+                document.getElementById('caBox').style.display = 'flex';
+                document.getElementById('mcapSection').style.display = 'flex';
+                document.getElementById('linkDex').href = 'https://dexscreener.com/solana/' + CA;
+                fetchMarketCap();
+                fetchTimer = setInterval(fetchMarketCap, 15000);
+            }
+            if (TWITTER_URL) document.getElementById('linkTwitter').href = TWITTER_URL;
+        })();
+
+        // ─── Copy ───
+        function copyCA(btn) {
+            var ca = document.getElementById('caAddress').textContent;
+            if (!ca) return;
+            navigator.clipboard.writeText(ca).catch(function() {
+                var t = document.createElement('textarea');
+                t.value = ca; t.style.position = 'fixed'; t.style.opacity = '0';
+                document.body.appendChild(t); t.select();
+                document.execCommand('copy'); document.body.removeChild(t);
+            });
+            btn.classList.add('copied');
+            setTimeout(function() { btn.classList.remove('copied'); }, 2000);
+        }
+    </script>
+</body>
+</html>
